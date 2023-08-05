@@ -1,0 +1,23 @@
+# Use the official SQL Server image as base
+FROM mcr.microsoft.com/mssql/server:2019-latest
+
+# Switch to root user
+USER root
+
+# Install curl and gnupg
+RUN apt-get update && apt-get install -y curl gnupg
+
+# Download and add Microsoft key
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
+# Add Microsoft SQL Server repository for Ubuntu 16.04
+RUN curl https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2019.list > /etc/apt/sources.list.d/mssql-server-2019.list
+
+# Install Full-Text Search components
+RUN apt-get update && apt-get install -y mssql-server-fts
+
+# Switch back to non-root user
+USER mssql
+
+# Start SQL Server
+CMD [ "/opt/mssql/bin/sqlservr" ]

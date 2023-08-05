@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mssql-server:
+    container_name: mssql-server-container
+    build: 
+      context: .
+      dockerfile: dockerfile
+    environment:
+      SA_PASSWORD: yourStrong(!)Password
+      ACCEPT_EULA: Y
+      MSSQL_PID: Developer
+      MSSQL_HOST: host.docker.internal
+      MSSQL_PORT: 1434   
+    ports:
+      - "1434:1433"
